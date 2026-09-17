@@ -1,0 +1,30 @@
+# Node.js / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.env*.local
+npm-debug.log*
+
+# Python / FastAPI
+backend/__pycache__/
+backend/venv/
+backend/env/
+backend/.venv/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Database (Prevents committing your local test data)
+backend/*.db
+backend/*.sqlite3
+
+# OS & Editor Files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Temporary Files
+tmp/
+temp/
