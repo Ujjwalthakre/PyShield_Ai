@@ -224,11 +224,13 @@ export default function Dashboard() {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">Findings ({findings.length})</h2>
             <div className="space-y-4 h-96 overflow-y-auto pr-2">
+              
               {findings.length === 0 && !loading && scanMode !== "snippet" && (
                 <div className="text-gray-500 italic mt-10 text-center border border-dashed border-gray-700 p-8 rounded-lg">
                   No Python vulnerabilities found in this target.
                 </div>
               )}
+
               {findings.map((finding, idx) => (
                 <div key={idx} className="bg-gray-900 border border-gray-800 rounded-lg p-4 shadow-lg flex flex-col justify-between">
                   <div>
@@ -243,30 +245,30 @@ export default function Dashboard() {
                       File: {finding.file} | Line: {finding.line}
                     </div>
 
-                    {/* AI Explanation Box */}
-                    {explanations[idx + 1] && (
+                    {/* AI Explanation Box (UPDATED to finding.id) */}
+                    {explanations[finding.id] && (
                       <div className="mt-3 mb-4 p-3 bg-gray-950 border border-blue-900/40 rounded text-sm text-gray-300 leading-relaxed whitespace-pre-wrap">
                         <strong className="text-blue-400 block mb-1 text-xs uppercase tracking-wide">AI Analysis:</strong>
-                        {explanations[idx + 1]}
+                        {explanations[finding.id]}
                       </div>
                     )}
                   </div>
                   
-                  {/* Dual Buttons */}
+                  {/* Dual Buttons (UPDATED to finding.id) */}
                   <div className="flex gap-3 mt-2">
                     <button
-                      onClick={() => getExplanation(idx + 1)}
-                      disabled={explainingId === idx + 1}
+                      onClick={() => getExplanation(finding.id)}
+                      disabled={explainingId === finding.id}
                       className="flex-1 py-2 px-4 border border-blue-500/30 text-blue-400 rounded hover:bg-blue-900/20 text-sm font-semibold transition-colors disabled:opacity-50"
                     >
-                      {explainingId === idx + 1 ? "🧠 Analyzing..." : explanations[idx + 1] ? "Hide Analysis" : "📖 Explain"}
+                      {explainingId === finding.id ? "🧠 Analyzing..." : explanations[finding.id] ? "Hide Analysis" : "📖 Explain"}
                     </button>
                     <button
-                      onClick={() => generateFix(idx + 1)} 
-                      disabled={fixingId === idx + 1}
+                      onClick={() => generateFix(finding.id)} 
+                      disabled={fixingId === finding.id}
                       className="flex-1 py-2 px-4 border border-purple-500/30 text-purple-400 rounded hover:bg-purple-900/20 text-sm font-semibold transition-colors disabled:opacity-50"
                     >
-                      {fixingId === idx + 1 ? "🧠 Generating Fix..." : "✨ Fix with AI"}
+                      {fixingId === finding.id ? "🧠 Generating Fix..." : "✨ Fix with AI"}
                     </button>
                   </div>
                 </div>

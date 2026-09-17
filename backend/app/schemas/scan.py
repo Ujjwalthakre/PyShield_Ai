@@ -8,6 +8,7 @@ class ScanRequest(BaseModel):
 
 # 2. What a single finding looks like in JSON
 class FindingSchema(BaseModel):
+    id: int
     rule_id: str
     severity: str
     message: str

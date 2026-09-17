@@ -87,10 +87,18 @@ def _process_multi_file_scan(source_name: str, files_dict: dict, db: Session):
                     vulnerable_code=content  # Save the code of just this file
                 )
                 db.add(db_finding)
+                db.flush()  # <-- NEW: Generates db_finding.id instantly!
+
                 api_findings.append(
                     FindingSchema(
-                        rule_id=f.rule_id, severity=f.severity, message=f.message,
-                        line=f.line, file=f.file, source=f.source, sink=f.sink
+                        id=db_finding.id,  # <-- NEW: Pass the ID to the frontend
+                        rule_id=f.rule_id, 
+                        severity=f.severity, 
+                        message=f.message,
+                        line=f.line, 
+                        file=f.file, 
+                        source=f.source, 
+                        sink=f.sink
                     )
                 )
         except SyntaxError:
@@ -98,8 +106,6 @@ def _process_multi_file_scan(source_name: str, files_dict: dict, db: Session):
 
     db.commit()
     return ScanResponse(status="success", total_findings=len(api_findings), findings=api_findings)
-
-
 @app.get("/api/v1/health")
 def health_check():
     return {"status": "online", "message": "PyShield AI is running.", "version": "1.0.0"}
